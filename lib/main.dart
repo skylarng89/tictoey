@@ -194,8 +194,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  colorScheme.primary.withOpacity(0.1),
-                  colorScheme.primary.withOpacity(0.05),
+                  colorScheme.primary.withValues(alpha: 0.1),
+                  colorScheme.primary.withValues(alpha: 0.05),
                 ],
               ),
             ),
@@ -303,7 +303,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
@@ -535,21 +535,6 @@ class _GameCell extends StatelessWidget {
     required this.size,
   });
 
-  // Helper method for responsive design
-  double _getResponsiveFontSize(BuildContext context, double baseSize) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final smallerDimension = screenHeight < screenWidth ? screenHeight : screenWidth;
-    
-    if (smallerDimension < 600) {
-      return baseSize * 0.7;
-    } else if (smallerDimension < 800) {
-      return baseSize * 0.85;
-    } else {
-      return baseSize;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -562,14 +547,14 @@ class _GameCell extends StatelessWidget {
         decoration: BoxDecoration(
           color: isWinning 
               ? (value == 'X' 
-                  ? const Color(0xFF6C63FF).withOpacity(0.2) 
-                  : const Color(0xFFFF6584).withOpacity(0.2))
+                  ? const Color(0xFF6C63FF).withValues(alpha: 0.2) 
+                  : const Color(0xFFFF6584).withValues(alpha: 0.2))
               : colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isWinning 
                 ? (value == 'X' ? const Color(0xFF6C63FF) : const Color(0xFFFF6584))
-                : colorScheme.outline.withOpacity(0.2),
+                : colorScheme.outline.withValues(alpha: 0.2),
             width: isWinning ? 2 : 1,
           ),
         ),
@@ -665,7 +650,7 @@ class _PlayerScore extends StatelessWidget {
         vertical: isCompact ? _getResponsiveSpacing(context, 6) : _getResponsiveSpacing(context, 12)
       ),
       decoration: BoxDecoration(
-        color: isActive ? color.withOpacity(0.1) : Colors.transparent,
+        color: isActive ? color.withValues(alpha: 0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isActive ? color : Colors.transparent,
