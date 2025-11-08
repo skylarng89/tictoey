@@ -4,7 +4,7 @@ import 'dart:io';
 
 void main(List<String> args) async {
   if (args.isEmpty) {
-    print('Usage: dart tools/version_bumper.dart [patch|minor|major|build]');
+    stderr.writeln('Usage: dart tools/version_bumper.dart [patch|minor|major|build]');
     exit(1);
   }
 
@@ -12,7 +12,7 @@ void main(List<String> args) async {
   final pubspecFile = File('pubspec.yaml');
   
   if (!pubspecFile.existsSync()) {
-    print('❌ pubspec.yaml not found');
+    stderr.writeln('❌ pubspec.yaml not found');
     exit(1);
   }
 
@@ -24,7 +24,7 @@ void main(List<String> args) async {
   );
 
   if (versionLine.isEmpty) {
-    print('❌ Version line not found in pubspec.yaml');
+    stderr.writeln('❌ Version line not found in pubspec.yaml');
     exit(1);
   }
 
@@ -33,7 +33,7 @@ void main(List<String> args) async {
   final versionName = parts[0];
   final buildCode = int.parse(parts[1]);
 
-  print('📊 Current version: $currentVersion');
+  stdout.writeln('📊 Current version: $currentVersion');
 
   // Parse version name
   final versionParts = versionName.split('.');
@@ -57,15 +57,15 @@ void main(List<String> args) async {
       newVersionName = versionName;
       break;
     default:
-      print('❌ Invalid version type: $versionType');
-      print('Use: patch, minor, major, or build');
+      stderr.writeln('❌ Invalid version type: $versionType');
+      stderr.writeln('Use: patch, minor, major, or build');
       exit(1);
   }
 
   final newBuildCode = buildCode + 1;
   final newVersion = '$newVersionName+$newBuildCode';
 
-  print('🎯 New version: $newVersion');
+  stdout.writeln('🎯 New version: $newVersion');
 
   // Update pubspec.yaml
   final newContent = content.replaceFirst(
@@ -74,7 +74,7 @@ void main(List<String> args) async {
   );
   await pubspecFile.writeAsString(newContent);
 
-  print('✅ Version updated in pubspec.yaml');
+  stdout.writeln('✅ Version updated in pubspec.yaml');
   
   // Update Android build.gradle.kts if needed
   final buildGradleFile = File('android/app/build.gradle.kts');
@@ -88,8 +88,8 @@ void main(List<String> args) async {
       'versionName = "$newVersionName"',
     );
     await buildGradleFile.writeAsString(updatedGradleContent);
-    print('✅ Android build.gradle.kts updated');
+    stdout.writeln('✅ Android build.gradle.kts updated');
   }
 
-  print('🎉 Version bump completed!');
+  stdout.writeln('🎉 Version bump completed!');
 }

@@ -4,7 +4,7 @@
 import 'dart:io';
 
 Future<void> main() async {
-  print('🔨 Auto-incrementing build version...');
+  stdout.writeln('🔨 Auto-incrementing build version...');
   
   final pubspecFile = File('pubspec.yaml');
   final content = await pubspecFile.readAsString();
@@ -16,7 +16,7 @@ Future<void> main() async {
   );
   
   if (versionLine.isEmpty) {
-    print('❌ Version not found');
+    stderr.writeln('❌ Version not found');
     exit(1);
   }
   
@@ -34,18 +34,18 @@ Future<void> main() async {
   );
   await pubspecFile.writeAsString(newContent);
   
-  print('✅ Version updated: $currentVersion → $newVersion');
+  stdout.writeln('✅ Version updated: $currentVersion → $newVersion');
   
   // Run flutter build
-  print('🏗️  Building release bundle...');
+  stdout.writeln('🏗️  Building release bundle...');
   final result = await Process.run('flutter', ['build', 'appbundle', '--release']);
   
   if (result.exitCode == 0) {
-    print('✅ Build completed successfully!');
-    print('📁 Bundle: build/app/outputs/bundle/release/app-release.aab');
+    stdout.writeln('✅ Build completed successfully!');
+    stdout.writeln('📁 Bundle: build/app/outputs/bundle/release/app-release.aab');
   } else {
-    print('❌ Build failed:');
-    print(result.stderr);
+    stderr.writeln('❌ Build failed:');
+    stderr.writeln(result.stderr);
     exit(1);
   }
 }
