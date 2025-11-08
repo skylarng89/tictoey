@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:confetti/confetti.dart';
 import 'package:vibration/vibration.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  
+  // Preserve the splash screen until app is ready
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   
   // Configure edge-to-edge display
   SystemChrome.setEnabledSystemUIMode(
@@ -40,7 +43,7 @@ class TicToeyApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
         useMaterial3: true,
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        fontFamily: 'Poppins',
       ),
       home: const GameScreen(),
     );
@@ -72,6 +75,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+    
+    // Remove splash screen with a slight delay for smooth transition
+    Future.delayed(const Duration(milliseconds: 500), () {
+      FlutterNativeSplash.remove();
+    });
   }
 
   @override
@@ -203,7 +211,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                   Flexible(
                     child: Text(
                       'TicToey',
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
                         fontSize: _getResponsiveFontSize(context, 36),
                         fontWeight: FontWeight.bold,
                         color: colorScheme.primary,
@@ -416,7 +425,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                         _winner == 'Draw' 
                             ? 'Game Draw!'
                             : 'Player $_winner Wins!',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
                           fontSize: _getResponsiveFontSize(context, 24),
                           fontWeight: FontWeight.bold,
                           color: _winner == 'X' 
@@ -576,7 +586,8 @@ class _GameCell extends StatelessWidget {
             child: value != null
                 ? Text(
                     value!,
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: size * 0.6, // Scale font size relative to cell size
                       fontWeight: FontWeight.bold,
                       color: value == 'X' 
@@ -666,7 +677,8 @@ class _PlayerScore extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: TextStyle(
+              fontFamily: 'Poppins',
               fontSize: _getResponsiveFontSize(context, 14),
               fontWeight: FontWeight.w500,
               color: isActive ? color : Colors.grey,
@@ -675,7 +687,8 @@ class _PlayerScore extends StatelessWidget {
           SizedBox(height: _getResponsiveSpacing(context, 4)),
           Text(
             '$score',
-            style: GoogleFonts.poppins(
+            style: TextStyle(
+              fontFamily: 'Poppins',
               fontSize: _getResponsiveFontSize(context, 24),
               fontWeight: FontWeight.bold,
               color: color,

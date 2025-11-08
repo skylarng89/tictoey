@@ -2,7 +2,6 @@
 
 // Simple build runner that auto-increments version before build
 import 'dart:io';
-import 'dart:convert';
 
 Future<void> main() async {
   print('🔨 Auto-incrementing build version...');
