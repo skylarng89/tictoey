@@ -1,0 +1,11 @@
+storePassword=<your-keystore-password>
+keyPassword=<your-key-password>
+keyAlias=upload
+storeFile=<path-to-your-upload-keystore.jks>
+
+# Instructions:
+# 1. Copy this file to 'key.properties'
+# 2. Replace <your-keystore-password> with your keystore password
+# 3. Replace <your-key-password> with your key password  
+# 4. Replace <path-to-your-upload-keystore.jks> with the actual path to your keystore file
+# 5. DO NOT commit the actual key.properties file to version control!
